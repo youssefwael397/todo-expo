@@ -1,12 +1,17 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import taskReducer from './todoSlice';
+import todoReducer from './todoSlice';
+import authReducer from './authSlice';
 
 const rootReducer = combineReducers({
-  tasks: taskReducer,
+  auth: authReducer,
+  todos: todoReducer,
 });
 
 const store = configureStore({
   reducer: rootReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

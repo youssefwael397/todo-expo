@@ -10,12 +10,12 @@ var react_native_1 = require("react-native"); // Import StyleSheet and View from
 var TodoList_js_1 = __importDefault(require("./components/TodoList.js"));
 // import TodoInput from './components/TodoInput';
 function App() {
-    return (<react_redux_1.Provider store={store_1.default}>
+    return (<Provider store={store_1.default}>
       <react_native_1.View>
         <TodoList_js_1.default />
         {/* <TodoInput /> */}
       </react_native_1.View>
-    </react_redux_1.Provider>);
+    </.Provider>);
 }
 exports.default = App;
 var styles = react_native_1.StyleSheet.create({
