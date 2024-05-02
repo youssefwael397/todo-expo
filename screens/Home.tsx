@@ -1,24 +1,30 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import React, { useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../redux/store';
+import Todos from '../components/Todos';
+import { getTodosByUserId } from '../redux/todoSlice';
+import AddTodo from '../components/AddTodo';
 
 const Home = () => {
-  const navigation = useNavigation();
-  const { loggedIn } = useSelector((state: RootState) => state.auth);
-//   console.log(loggedIn);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(getTodosByUserId());
+  }, []);
+
   return (
-    <View>
-      <Text>Home</Text>
-      <Text>loggedIn: {loggedIn}</Text>
-      <Pressable onPress={() => navigation.navigate('CreateTodo')}>
-        <Text>Navigate to Create todo</Text>
-      </Pressable>
+    <View style={styles.container}>
+      <Todos />
+      <AddTodo />
     </View>
   );
 };
 
-export default Home;
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+  },
+});
 
-const styles = StyleSheet.create({});
+export default Home;

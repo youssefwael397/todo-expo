@@ -27,7 +27,7 @@ export const getTodosByUserId = createAsyncThunk(
   'todos/getTodosByUserId',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await AxiosJwt.get(`/api/todos`);
+      const response = await AxiosJwt.get(`/todos`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -41,11 +41,26 @@ export const createNewTodo = createAsyncThunk(
   async (title: string, { rejectWithValue }) => {
     try {
       // Example URL and Axios post request, adjust as needed
-      const url = '/api/todos';
+      const url = '/todos';
       const response = await AxiosJwt.post(url, { title });
       return response.data;
-    } catch (err) {
-      return rejectWithValue(err);
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+// Async thunk to update a new todo
+export const updateTodo = createAsyncThunk(
+  'todos/update',
+  async ( todo: Todo, { rejectWithValue }) => {
+    try {
+      // Example URL and Axios post request, adjust as needed
+      const url = `/todos`;
+      const response = await AxiosJwt.put(url, { todo });
+      return response.data;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
     }
   }
 );
@@ -55,10 +70,10 @@ export const deleteTodoById = createAsyncThunk(
   'todos/deleteTodoById',
   async (todoId: number, { rejectWithValue }) => {
     try {
-      await AxiosJwt.delete(`/api/todos/${todoId}`);
+      await AxiosJwt.delete(`/todos/${todoId}`);
       return todoId;
-    } catch (err) {
-      return rejectWithValue(err);
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
     }
   }
 );
@@ -68,7 +83,7 @@ export const toggleTodoComplete = createAsyncThunk(
   'todos/toggleTodoComplete',
   async (todoId: number, { rejectWithValue }) => {
     try {
-      const response = await AxiosJwt.get(`/api/todos/toggle/${todoId}`);
+      const response = await AxiosJwt.get(`/todos/toggle/${todoId}`);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -101,7 +116,7 @@ export const todoSlice = createSlice({
     });
     builder.addCase(getTodosByUserId.fulfilled, (state, action) => {
       state.loading = false;
-      state.todos = action.payload;
+      state.todos = action.payload.data;
     });
     builder.addCase(getTodosByUserId.rejected, (state, action) => {
       state.loading = false;
@@ -115,9 +130,26 @@ export const todoSlice = createSlice({
     });
     builder.addCase(createNewTodo.fulfilled, (state, action) => {
       state.loading = false;
-      state.todos.push(action.payload);
+      state.todos.push(action.payload.data);
     });
     builder.addCase(createNewTodo.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+
+    // Handle loading and error for updateTodo
+    builder.addCase(updateTodo.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateTodo.fulfilled, (state, action) => {
+      state.loading = false;
+      const newTodos = state.todos.map((item) =>
+        item.id == action.payload.data.id ? action.payload.data : item
+      );
+      state.todos = newTodos;
+    });
+    builder.addCase(updateTodo.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });
@@ -128,6 +160,7 @@ export const todoSlice = createSlice({
       state.error = null;
     });
     builder.addCase(deleteTodoById.fulfilled, (state, action) => {
+      console.log('🚀 ~ builder.addCase ~ action:', action);
       state.loading = false;
       state.todos = state.todos.filter((todo) => todo.id !== action.payload);
     });
@@ -144,13 +177,16 @@ export const todoSlice = createSlice({
     builder.addCase(toggleTodoComplete.fulfilled, (state, action) => {
       state.loading = false;
       // Update the todo's completion status
-      const toggledTodo = state.todos.find(
-        (todo) => todo.id === action.payload.id
+      const toggledTodoIndex = state.todos.findIndex(
+        (todo) => todo.id === action.payload.data.id
       );
-      if (toggledTodo) {
-        toggledTodo.completed = !toggledTodo.completed;
+
+      if (toggledTodoIndex !== -1) {
+        state.todos[toggledTodoIndex].completed =
+          !state.todos[toggledTodoIndex].completed;
       }
     });
+
     builder.addCase(toggleTodoComplete.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;

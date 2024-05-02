@@ -1,112 +1,70 @@
-import todo from '../components/Todo'; 
-import useGlobalStore, { AppDispatch, RootState } from '../redux/store';
-import { Box, Text } from '../utils/theme';
-import { Picker } from '@react-native-picker/picker';
+import { AppDispatch } from '../redux/store';
+import { Box } from '../utils/theme';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { nanoid } from 'nanoid/non-secure';
 import React, { useState } from 'react';
-import { Pressable, TextInput } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteTodoById } from '../redux/todoSlice';
+import { IconButton, TextInput } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+import { Button } from 'react-native-paper';
+import { deleteTodoById, updateTodo } from '../redux/todoSlice';
 import { RootStackParamList } from '../navigation/types';
 
 type EditTodoRoute = RouteProp<RootStackParamList, 'EditTodo'>;
 
 const EditTodo = () => {
-   const navigation = useNavigation();
-   const { todos } = useSelector((state: RootState) => state.todos);
-   const { params } = useRoute<EditTodoRoute>();
-   const [newTodo, setNewTodo] = useState<ITodo>(
-     params?.todo || { id: 0, userId: 0, completed: false, title: '' }
-   );
-   const dispatch = useDispatch<AppDispatch>();
+  const navigation = useNavigation();
+  const { params } = useRoute<EditTodoRoute>();
+  const [newTodo, setNewTodo] = useState<ITodo>(
+    params?.todo || { id: 0, userId: 0, completed: false, title: '' }
+  );
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleUpdateTodo = () => {
-    // dispatch(edit());
-    navigation.navigate('Home');
+    dispatch(updateTodo(newTodo));
+    navigation.navigate('Todos');
   };
 
   const handleDeleteTask = () => {
     dispatch(deleteTodoById(newTodo.id));
-
-    navigation.navigate('Home');
+    navigation.navigate('Todos');
   };
 
   return (
-    <Box flex={1} bg="gray100" p="4" pb="10">
-      <Box
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Box
-          width={'100%'}
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Box
-            width={'100%'}
-            bg="white"
-            borderRadius="roundedXl"
-            alignItems="center"
-            justifyContent="center"
-            p="4"
-          >
-            <TextInput
-              style={{
-                fontSize: 20,
-                width: '100%',
-              }}
-              placeholder="Create new task"
-              value={newTodo.title}
-              onChangeText={(text) => {
-                setNewTodo((prev) => {
-                  return {
-                    ...prev,
-                    title: text,
-                  };
-                });
-              }}
-            />
-          </Box>
-          <Box height={20} />
-        </Box>
-        <Box
-          mx="4"
-          bg="red500"
-          width={'100%'}
-          borderRadius="roundedXl"
-          p="4"
-          alignItems="center"
-          style={{
-            marginTop: '60%',
-          }}
-        >
-          <Pressable onPress={handleDeleteTask}>
-            <Text variant="textXl" color="blu200">
-              Delete
-            </Text>
-          </Pressable>
-        </Box>
-        <Box
-          mx="4"
-          bg="blu500"
-          width={'100%'}
-          borderRadius="roundedXl"
-          p="4"
-          alignItems="center"
-          style={{
-            marginTop: 20,
-          }}
-        >
-          <Pressable onPress={handleUpdateTodo}>
-            <Text variant="textXl" color="blu200">
-              Edit
-            </Text>
-          </Pressable>
-        </Box>
+    <Box flex={1} justifyContent="center" alignItems="center">
+      <Box width="80%">
+        <TextInput
+          style={{ fontSize: 20 }}
+          placeholder="Edit Task"
+          value={newTodo.title}
+          onChangeText={(text) =>
+            setNewTodo((prev) => ({ ...prev, title: text }))
+          }
+        />
       </Box>
+      <Box
+        width="40%"
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          rowGap: 10,
+          margin: 10,
+        }}
+      >
+        <IconButton
+          icon="delete"
+          iconColor={'#f00'}
+          size={20}
+          onPress={handleDeleteTask}
+        />
+        <IconButton
+          icon="circle-edit-outline"
+          iconColor={'#00f'}
+          size={20}
+          onPress={handleUpdateTodo}
+        />
+      </Box>
+      {/* <Box marginTop={"2"} width="80%">
+      </Box> */}
     </Box>
   );
 };

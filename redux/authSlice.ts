@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import AxiosJwt from '../axios/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 
 export interface Credentials {
   email: string;
@@ -65,7 +65,7 @@ const initialState: IinitialState = {
   loggedIn: false,
   loading: false,
   error: null,
-  me: null
+  me: null,
 };
 
 export const authSlice = createSlice({
@@ -91,12 +91,27 @@ export const authSlice = createSlice({
     builder.addCase(loginThunk.fulfilled, (state, action) => {
       state.loading = false;
       state.token = action.payload.accessToken;
+      // Decode the JWT token to extract user information
+      // const decodedToken = jwt.decode(action.payload.accessToken) as {
+      //   [key: string]: any;
+      // } | null;
+
+      // if (decodedToken) {
+      //   // Assuming the decoded token has user information stored in a property called 'user'
+      //   state.me = decodedToken.user;
+      //   state.loggedIn = true;
+      // } else {
+      //   // Handle error if decoding fails
+      //   // For example, setting state.loggedIn to false or showing an error message
+      //   state.loggedIn = false;
+      // }
+      // state.me = decodedToken;
       state.loggedIn = true;
     });
     builder.addCase(loginThunk.rejected, (state, action) => {
       state.loading = false;
       state.error = action?.payload;
-      console.log("🚀 ~ builder.addCase ~ state.error:", state.error)
+      console.log('🚀 ~ builder.addCase ~ state.error:', state.error);
     });
 
     // auth register
@@ -112,7 +127,7 @@ export const authSlice = createSlice({
     builder.addCase(registerThunk.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
-    })
+    });
   },
 });
 

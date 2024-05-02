@@ -50,7 +50,7 @@ const Register = () => {
               value={values.username}
               onChangeText={handleChange('username')}
               onBlur={handleBlur('username')}
-              error={errors.username ? true : false}
+              // error={errors.username ? true : false}
             />
             {errors.username && (
               <Text style={styles.error}>{errors.username}</Text>
@@ -60,7 +60,7 @@ const Register = () => {
               value={values.email}
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
-              error={errors.email ? true : false}
+              // error={errors.email ? true : false}
             />
             {errors.email && <Text style={styles.error}>{errors.email}</Text>}
             <TextInput
@@ -69,7 +69,7 @@ const Register = () => {
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               secureTextEntry
-              error={errors.password ? true : false}
+              // error={errors.password ? true : false}
             />
             {errors.password && (
               <Text style={styles.error}>{errors.password}</Text>
@@ -80,12 +80,12 @@ const Register = () => {
               onChangeText={handleChange('confirm_password')}
               onBlur={handleBlur('confirm_password')}
               secureTextEntry
-              error={errors.confirm_password ? true : false}
+              // error={errors.confirm_password ? true : false}
             />
             {errors.confirm_password && (
               <Text style={styles.error}>{errors.confirm_password}</Text>
             )}
-            {error && <Text style={styles.error}>{error.message}</Text>}
+            {error && <Text style={styles.apiError}>{error.message}</Text>}
             <Button
               mode="contained"
               onPress={() => handleSubmit()}
@@ -115,6 +115,11 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 10,
+  },
+  apiError: {
+    color: 'red',
+    marginBottom: 10,
+    textAlign: 'center',
   },
   loginLink: {
     marginTop: 20,
