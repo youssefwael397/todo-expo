@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Create an Axios instance
 export const AxiosGolbal: AxiosInstance = axios.create({
-  baseURL: 'https://server-git-main-youssef-waels-projects.vercel.app/api',
+  baseURL: 'http://127.0.0.1:5000/api',
   timeout: 10000, // optional timeout
   headers: {
     'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ export const AxiosGolbal: AxiosInstance = axios.create({
 
 // Create an Axios instance
 const AxiosJwt: AxiosInstance = axios.create({
-  baseURL: 'https://server-git-main-youssef-waels-projects.vercel.app/api',
+  baseURL: 'http://127.0.0.1:5000/api',
   timeout: 10000, // optional timeout
   headers: {
     'Content-Type': 'application/json',

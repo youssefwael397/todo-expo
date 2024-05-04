@@ -28,7 +28,7 @@ const Todos = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <DataTable>
         <DataTable.Header>
           <DataTable.Title>Completed</DataTable.Title>

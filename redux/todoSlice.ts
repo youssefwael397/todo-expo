@@ -17,7 +17,68 @@ interface TodosState {
 }
 
 const initialState: TodosState = {
-  todos: [],
+  todos: [
+    {
+      id: 2,
+      title: 'create neww tasskkkkk\n',
+      completed: false,
+      userId: 1,
+    },
+    {
+      id: 3,
+      title: 'new',
+      completed: true,
+      userId: 1,
+    },
+    {
+      id: 4,
+      title: 'asdasdasdasd',
+      completed: false,
+      userId: 1,
+    },
+    {
+      id: 5,
+      title: 'aSdasdasd',
+      completed: true,
+      userId: 1,
+    },
+    {
+      id: 6,
+      title: 'asdasdasdaa',
+      completed: true,
+      userId: 1,
+    },
+    {
+      id: 7,
+      title: 'la;ks;daksd',
+      completed: false,
+      userId: 1,
+    },
+    {
+      id: 4,
+      title: 'asdasdasdasd',
+      completed: false,
+      userId: 1,
+    },
+    {
+      id: 5,
+      title: 'aSdasdasd',
+      completed: true,
+      userId: 1,
+    },
+    {
+      id: 6,
+      title: 'asdasdasdaa',
+      completed: true,
+      userId: 1,
+    },
+    {
+      id: 7,
+      title: 'la;ks;daksd',
+      completed: false,
+      userId: 1,
+    },
+  ],
   loading: false,
   error: null,
 };
@@ -40,7 +101,6 @@ export const createNewTodo = createAsyncThunk(
   'todos/createNewTodo',
   async (title: string, { rejectWithValue }) => {
     try {
-      // Example URL and Axios post request, adjust as needed
       const url = '/todos';
       const response = await AxiosJwt.post(url, { title });
       return response.data;
@@ -53,9 +113,8 @@ export const createNewTodo = createAsyncThunk(
 // Async thunk to update a new todo
 export const updateTodo = createAsyncThunk(
   'todos/update',
-  async ( todo: Todo, { rejectWithValue }) => {
+  async (todo: Todo, { rejectWithValue }) => {
     try {
-      // Example URL and Axios post request, adjust as needed
       const url = `/todos`;
       const response = await AxiosJwt.put(url, { todo });
       return response.data;
@@ -97,6 +156,7 @@ export const todoSlice = createSlice({
   reducers: {
     addtodo: (state, { payload }) => {
       const { title } = payload;
+      console.log('🚀 ~ payload:', payload);
       const newTodo: Todo = {
         title,
         completed: false, // Assuming a new todo is always created as incomplete
@@ -106,6 +166,9 @@ export const todoSlice = createSlice({
     deletetodo: (state, action) => {
       const idToDelete = action.payload.id;
       state.todos = state.todos.filter((todo) => todo.id !== idToDelete);
+    },
+    ResetError: (state) => {
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -194,6 +257,6 @@ export const todoSlice = createSlice({
   },
 });
 
-export const { addtodo, deletetodo } = todoSlice.actions;
+export const { addtodo, deletetodo, ResetError } = todoSlice.actions;
 
 export default todoSlice.reducer;

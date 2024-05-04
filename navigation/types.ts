@@ -2,7 +2,6 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   Todos: undefined;
-  CreateTodo: undefined;
   EditTodo: {
     todo: ITodo;
   };
