@@ -48,26 +48,9 @@ export default function Navigation() {
               ),
             }}
           />
-          <Stack.Screen name="EditTodo" component={EditTodo} />
         </>
       ) : (
         <>
-          <Stack.Screen
-            name="Todos"
-            component={Home}
-            options={{
-              headerRight: () => (
-                // Add the logout icon button to all screens by default
-                <IconButton
-                  icon="logout"
-                  onPress={handleLogout}
-                  iconColor={colors.red500}
-                />
-              ),
-            }}
-          />
-          <Stack.Screen name="EditTodo" component={EditTodo} />
-
           <Stack.Screen
             name="Login"
             component={LoginScreen}

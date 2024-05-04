@@ -17,68 +17,7 @@ interface TodosState {
 }
 
 const initialState: TodosState = {
-  todos: [
-    {
-      id: 2,
-      title: 'create neww tasskkkkk\n',
-      completed: false,
-      userId: 1,
-    },
-    {
-      id: 3,
-      title: 'new',
-      completed: true,
-      userId: 1,
-    },
-    {
-      id: 4,
-      title: 'asdasdasdasd',
-      completed: false,
-      userId: 1,
-    },
-    {
-      id: 5,
-      title: 'aSdasdasd',
-      completed: true,
-      userId: 1,
-    },
-    {
-      id: 6,
-      title: 'asdasdasdaa',
-      completed: true,
-      userId: 1,
-    },
-    {
-      id: 7,
-      title: 'la;ks;daksd',
-      completed: false,
-      userId: 1,
-    },
-    {
-      id: 4,
-      title: 'asdasdasdasd',
-      completed: false,
-      userId: 1,
-    },
-    {
-      id: 5,
-      title: 'aSdasdasd',
-      completed: true,
-      userId: 1,
-    },
-    {
-      id: 6,
-      title: 'asdasdasdaa',
-      completed: true,
-      userId: 1,
-    },
-    {
-      id: 7,
-      title: 'la;ks;daksd',
-      completed: false,
-      userId: 1,
-    },
-  ],
+  todos: [],
   loading: false,
   error: null,
 };

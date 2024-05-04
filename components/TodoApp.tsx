@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { colors } from '../utils/theme/colors';
+import UpdateTodo from './UpdateTodo';
 
 const TodoApp = () => {
   const { todos, loading } = useSelector((state: RootState) => state.todos) as {
@@ -129,12 +130,13 @@ const TodoApp = () => {
           ? `${task.title.substring(0, 30)}...`
           : task.title}
       </Text>
-      <IconButton
+      {/* <IconButton
         icon={<Feather name="edit" size={18} color={colors.blu500} />}
         onPress={() => handleTaskPress(task)} // Navigate to edit screen
         size="sm"
         variant="unstyled"
-      />
+      /> */}
+      <UpdateTodo todo={task} />
     </View>
   );
 

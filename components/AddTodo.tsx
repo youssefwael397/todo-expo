@@ -11,7 +11,7 @@ const AddTodo = () => {
 
   const handleAddTodo = () => {
     dispatch(createNewTodo(todoText));
-    setTodoText(''); // Clear the input field after adding todo
+    setTodoText('');
   };
 
   return (
